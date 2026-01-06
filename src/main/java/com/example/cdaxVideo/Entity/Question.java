@@ -2,8 +2,6 @@ package com.example.cdaxVideo.Entity;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import jakarta.persistence.*;
 
 @Entity
@@ -13,22 +11,11 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonProperty("questionText")
     private String questionText;
-    
-    @JsonProperty("optionA")
     private String optionA;
-    
-    @JsonProperty("optionB")
     private String optionB;
-    
-    @JsonProperty("optionC")
     private String optionC;
-    
-    @JsonProperty("optionD")
     private String optionD;
-    
-    @JsonProperty("correctAnswer")
     private String correctAnswer;
     private int marks;
 
