@@ -1,15 +1,15 @@
 package com.example.cdaxVideo.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Transient;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-//@Table(name = "module")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "userProgress"})
 public class Module {
 
     @Id
@@ -19,13 +19,16 @@ public class Module {
     private String title;
     private int durationSec;
 
+    // FIX: Add @JsonIgnoreProperties to prevent circular reference
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "userProgress"})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id")
-    @JsonBackReference
     private Course course;
 
-    @OneToMany(mappedBy = "module", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference
+    // FIX: Add @JsonIgnoreProperties
+    @OneToMany(mappedBy = "module", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("displayOrder ASC")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "userProgress"})
     private List<Video> videos = new ArrayList<>();
     
     @Transient
@@ -36,8 +39,7 @@ public class Module {
     @JsonProperty("assessmentLocked")
     private boolean assessmentLocked = true;
 
-
-    // Constructors
+    // Constructors, getters, setters remain the same...
     public Module() {}
 
     public Module(String title, int durationSec) {
@@ -45,7 +47,7 @@ public class Module {
         this.durationSec = durationSec;
     }
 
-    // Getters and Setters
+    // Getters and Setters...
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -66,10 +68,4 @@ public class Module {
 
     public boolean isAssessmentLocked() { return assessmentLocked; }
     public void setAssessmentLocked(boolean assessmentLocked) { this.assessmentLocked = assessmentLocked; }
-
-	public void setAssessments(List<Assessment> byModuleId) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }
