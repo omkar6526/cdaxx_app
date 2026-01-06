@@ -116,7 +116,7 @@ public class AuthController {
             response.put("email", user.getEmail());
             response.put("firstName", user.getFirstName());
             response.put("lastName", user.getLastName());
-            response.put("mobile", user.getMobile());
+            response.put("mobile", user.getPhoneNumber());
             return ResponseEntity.ok(response);
         } else {
             response.put("status", "error");
