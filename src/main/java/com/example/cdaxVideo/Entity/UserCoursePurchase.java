@@ -13,9 +13,11 @@ public class UserCoursePurchase {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")  // ← ADD THIS
     private User user;
 
     @ManyToOne
+    @JoinColumn(name = "course_id", referencedColumnName = "id")  // ← ADD THIS
     private Course course;
 
     private Date purchasedOn = new Date();
